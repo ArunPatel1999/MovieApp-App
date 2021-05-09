@@ -1,5 +1,6 @@
 package com.moviepurtesrting.enitity;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -9,26 +10,29 @@ public class Movie {
 
 
     private int id;
-    private String name, image_url, description;
-    private float rating;
-    private boolean movieOrNot;
+    private String name, image_url;
+    private String description;
+    private LocalDate releaseDate;
+    private String type;
 
-    private Map<String,String> download_link = new LinkedHashMap<String, String>(5, 0.25f);
+    private Map<String, Float> rating = new LinkedHashMap<>(3,0.1f);
 
-    private Set<String> genre = new HashSet<String>(5,0.5f);
+    private Map<String,String> download_link = new LinkedHashMap<>(5, 0.25f);
 
-    private Set<String> language = new HashSet<String>(2,0.5f);
+    private Set<String> genre = new HashSet<>(5,0.5f);
 
+    private Set<String> language = new HashSet<>(2,0.5f);
 
-    public Movie(){}
+    public Movie() { }
 
-    public Movie(int id, String name, String image_url, String description, float rating, boolean movieOrNot, Map<String, String> download_link, Set<String> genre, Set<String> language) {
+    public Movie(int id, String name, String image_url, String description, LocalDate releaseDate, String type, Map<String, Float> rating, Map<String, String> download_link, Set<String> genre, Set<String> language) {
         this.id = id;
         this.name = name;
         this.image_url = image_url;
         this.description = description;
+        this.releaseDate = releaseDate;
+        this.type = type;
         this.rating = rating;
-        this.movieOrNot = movieOrNot;
         this.download_link = download_link;
         this.genre = genre;
         this.language = language;
@@ -66,20 +70,28 @@ public class Movie {
         this.description = description;
     }
 
-    public float getRating() {
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Map<String, Float> getRating() {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(Map<String, Float> rating) {
         this.rating = rating;
-    }
-
-    public boolean isMovieOrNot() {
-        return movieOrNot;
-    }
-
-    public void setMovieOrNot(boolean movieOrNot) {
-        this.movieOrNot = movieOrNot;
     }
 
     public Map<String, String> getDownload_link() {

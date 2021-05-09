@@ -1,6 +1,8 @@
 package com.moviepurtesrting.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.moviepurtesrting.R;
 import com.moviepurtesrting.enitity.MovieLite;
+import com.moviepurtesrting.mainwork.FullDetailsActivity;
+import com.moviepurtesrting.mainwork.MainActivity;
+import com.moviepurtesrting.mainwork.SearchActivity;
 
 import java.util.List;
 
@@ -45,7 +50,10 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         holder.movieClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //for next Time
+                Intent intent =  new Intent(context, FullDetailsActivity.class);
+                TextView id = v.findViewById(R.id.mId);
+                intent.putExtra("MOVIE_ID",id.getText());
+                context.startActivity(intent);
             }
         });
 

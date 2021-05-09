@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#C608FF"
-            android:onClick="all"
+            android:onClick="getAll"
             android:text="@string/all"
             android:textAllCaps="false"
             android:textSize="20sp" />
