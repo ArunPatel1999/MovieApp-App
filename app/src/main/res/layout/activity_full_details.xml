@@ -1,88 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".mainwork.FullDetailsActivity">
 
-    <TextView
-        android:id="@+id/movieName"
-        android:text="Avenger End Game"
-        android:textSize="30dp"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mainwork.FullDetailsActivity">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="350dp"
+        android:id="@+id/movieImageContainer"
+        app:layout_constraintTop_toTopOf="parent"  >
+
+    <ImageView
+        android:id="@+id/movieImage"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:padding="2.5dp"
+        android:background="@drawable/background_shap"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/movieImage"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/redcircle"
+            android:paddingTop="37dp"
+            android:text="Movie"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_green_dark"
+            android:textSize="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/movieName"
         android:background="@drawable/background_shap"
-        android:scaleType="fitXY"
+        android:textColor="@android:color/holo_green_dark"
+        android:text="Avenger End Game"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/movieName" />
+        app:layout_constraintTop_toBottomOf="@id/movieImageContainer" />
 
     <TextView
+        android:id="@+id/releaseDate"
+        android:background="@drawable/background_shap"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:text=" releaseDate : 7-02-2012"
+        android:textSize="20dp"
+        android:textColor="#421535"
+        app:layout_constraintTop_toBottomOf="@id/movieName"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ratingContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/background_shap"
+        app:layout_constraintTop_toBottomOf="@id/releaseDate"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/imdv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:text="IMDv : 7.4 %"
+            android:textSize="20dp"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_constraintEnd_toStartOf="@+id/our"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/our"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:text="Our : 7.9 % "
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tomato"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rotten Tomatoes : 89 % "
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/our" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
         android:id="@+id/movieDescription"
-
+        android:background="@drawable/background_shap"
+        android:textColor="@android:color/holo_blue_bright"
+        android:layout_marginTop="10dp"
+        android:text="Avenger End Game"
+        android:textSize="15dp"
+        android:paddingLeft="20dp"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/movieImage"
-        />
+        app:layout_constraintTop_toBottomOf="@id/ratingContainer" />
+
+    <TableLayout
+        android:id="@+id/genres"
+        android:background="@drawable/background_shap"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/movieDescription"/>
+
+    <TableLayout
+        android:id="@+id/languages"
+        android:background="@drawable/background_shap"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/genres"/>
+
+    <TableLayout
+        android:id="@+id/downloads"
+        android:background="@drawable/background_shap"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/languages"/>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/movieRating"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/movieDescription"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/movieType"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/movieRating" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Genre : "
-        android:id="@+id/movieGenre"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/movieType"
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Language : "
-        android:id="@+id/movieLanguage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/movieGenre"
-        />
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Download Link : "
-        android:id="@+id/downloadText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/movieLanguage"
-        />
-
-
+        app:layout_constraintTop_toBottomOf="@id/downloads" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

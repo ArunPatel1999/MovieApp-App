@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Object response) {
                         movieLiteList.clear();
                         movieLiteList.addAll((Collection<? extends MovieLite>) response);
+                        if(movieLiteList.isEmpty())
+                            movieLiteList.add(new MovieLite(0,"NA",null));
                         requestAdapter.notifyDataSetChanged();
                     }
                     @Override

@@ -52,8 +52,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
             public void onClick(View v) {
                 Intent intent =  new Intent(context, FullDetailsActivity.class);
                 TextView id = v.findViewById(R.id.mId);
+                if(!(id.getText().charAt(0)=='0')){
                 intent.putExtra("MOVIE_ID",id.getText());
-                context.startActivity(intent);
+                context.startActivity(intent);}
             }
         });
 
