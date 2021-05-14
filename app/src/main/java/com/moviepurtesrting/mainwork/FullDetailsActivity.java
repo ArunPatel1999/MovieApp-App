@@ -1,9 +1,6 @@
 package com.moviepurtesrting.mainwork;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,6 +11,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.ParsedRequestListener;
@@ -21,11 +20,13 @@ import com.bumptech.glide.Glide;
 import com.moviepurtesrting.R;
 import com.moviepurtesrting.enitity.Movie;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-
+@SuppressLint("NewApi")
 public class FullDetailsActivity extends AppCompatActivity {
 
 
@@ -33,36 +34,38 @@ public class FullDetailsActivity extends AppCompatActivity {
     private TextView movieName,movieDescription,type,releaseDate,imdv,our,tomato;
     private ImageView movieImage;
     private TableLayout movieGenres,movieLanguages,movieDownloads;
+    private Context context;
 
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_details);
+        context=this;
 
+        movieImage =  findViewById(R.id.movieImage);
+        type = findViewById(R.id.type);
 
-        movieImage = (ImageView) findViewById(R.id.movieImage);
-        type = (TextView) findViewById(R.id.type);
+        movieName =  findViewById(R.id.movieName);
+        releaseDate =  findViewById(R.id.releaseDate);
 
-        movieName = (TextView) findViewById(R.id.movieName);
-        releaseDate = (TextView) findViewById(R.id.releaseDate);
+        imdv =  findViewById(R.id.imdv);
+        our = findViewById(R.id.our);
+        tomato =  findViewById(R.id.tomato);
 
-        imdv = (TextView) findViewById(R.id.imdv);
-        our = (TextView) findViewById(R.id.our);
-        tomato = (TextView) findViewById(R.id.tomato);
+        movieDescription =  findViewById(R.id.movieDescription);
 
-        movieDescription = (TextView)  findViewById(R.id.movieDescription);
+        movieGenres =  findViewById(R.id.genres);
+        movieLanguages =   findViewById(R.id.languages);
+        movieDownloads =   findViewById(R.id.downloads);
 
-        movieGenres = (TableLayout)   findViewById(R.id.genres);
-        movieLanguages = (TableLayout)  findViewById(R.id.languages);
-        movieDownloads = (TableLayout)  findViewById(R.id.downloads);
-
-        setFullDetails(this);
+        setFullDetails();
     }
 
 
-    private void setFullDetails(Activity activity) {
+    private void setFullDetails() {
         String movieId = getIntent().getStringExtra("MOVIE_ID");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         AndroidNetworking.post(MOVIEPUR_URL+"/main/get/"+movieId)
                 .build()
                 .getAsObject(Movie.class, new ParsedRequestListener() {
@@ -70,20 +73,27 @@ public class FullDetailsActivity extends AppCompatActivity {
                     public void onResponse(Object response) {
                         Movie movie = (Movie) response;
 
-                        Glide.with(activity).load(movie.getImage_url()).centerInside().into(movieImage);
+                        Glide.with(context).load(movie.getImage_url()).centerInside().into(movieImage);
                         type.setText(movie.getType());
 
                         movieName.setText(movie.getName());
-                        releaseDate.setText("releaseDate : "+movie.getReleaseDate());
-                        movieDescription.setText(" "+movie.getDescription());
+
+                        String relesedate = movie.getReleaseDate();
+                        if(relesedate!=null)
+                        {
+                            LocalDate dt = LocalDate.parse(relesedate);
+                            relesedate = formatter.format(dt);
+                        }
+                        releaseDate.setText("Release Date : "+relesedate);
+                        movieDescription.setText(movie.getDescription());
 
                         imdv.setText("IMDv : "+movie.getRating().get("IMDb"));
                         our.setText("Moviepur : "+movie.getRating().get("Moviepur"));
                         tomato.setText("Rotten Tomatoes : "+movie.getRating().get("Rotten Tomatoes")+" %");
 
-                        addForGenreAndLanguage(activity,movieGenres,movie.getGenre());
-                        addForGenreAndLanguage(activity,movieLanguages,movie.getLanguage());
-                        addForDownload(activity,movieDownloads,movie.getDownload_link());
+                        addForGenreAndLanguage(movieGenres,movie.getGenre());
+                        addForGenreAndLanguage(movieLanguages,movie.getLanguage());
+                        addForDownload(movieDownloads,movie.getDownload_link());
                     }
 
                     @Override
@@ -94,7 +104,7 @@ public class FullDetailsActivity extends AppCompatActivity {
     }
 
 
-    private void addForGenreAndLanguage(Context context, TableLayout layout, Set<String> items){
+    private void addForGenreAndLanguage(TableLayout layout, Set<String> items){
         TableRow row = null;
         Random rd = new Random();
         int i=0;
@@ -106,8 +116,12 @@ public class FullDetailsActivity extends AppCompatActivity {
             }
             Button button = new Button(context);
             button.setText(value);
-            button.setBackgroundColor( Color.rgb(rd.nextInt(255),rd.nextInt(255),rd.nextInt(255)) );
+            button.setWidth(30);
             TableRow.LayoutParams trParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
+
+            trParams.setMargins(30, 0, 0, 0);
+            button.setLayoutParams(trParams);
+            button.setBackgroundColor( Color.rgb(rd.nextInt(255),rd.nextInt(255),rd.nextInt(255)) );
             row.addView(button, trParams);
             i++;
         }
@@ -116,9 +130,7 @@ public class FullDetailsActivity extends AppCompatActivity {
 
 
 
-
-    @SuppressLint("NewApi")
-    private void addForDownload(Context context, TableLayout layout, Map<String,String> map){
+    private void addForDownload(TableLayout layout, Map<String,String> map){
         Random rd = new Random();
 
         map.keySet().forEach( x-> {

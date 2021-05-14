@@ -1,0 +1,105 @@
+package com.moviepurtesrting.mainwork;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.ParsedRequestListener;
+import com.moviepurtesrting.R;
+
+import java.util.List;
+import java.util.Random;
+
+public class SearchMoive extends AppCompatActivity {
+
+
+    private final String MOVIEPUR_URL = "https://moviepur-api.herokuapp.com/";
+    private Context context ;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search_moive);
+        context = this;
+
+        TableLayout genreList = findViewById(R.id.genresList);
+        TableLayout languageList = findViewById(R.id.languageLIst);
+
+        setGenresAndLanguage("all/getAllGenres", genreList);
+        setGenresAndLanguage("all/getAllLanguages",languageList);
+    }
+
+    public void backButton(View view)    {
+        Intent i =new Intent(SearchMoive.this,MainActivity.class);
+        startActivity(i);
+    }
+
+    public void searchMovie(View view)    {
+    EditText editText = findViewById(R.id.name);
+        if(!editText.getText().toString().isEmpty()){
+            Intent intent =  new Intent(context, SearchingData.class);
+            intent.putExtra("NAME",editText.getText().toString());
+            intent.putExtra("URL","all/name/"+editText.getText().toString());
+            context.startActivity(intent);
+        }
+    }
+
+
+    private void setGenresAndLanguage(String end,TableLayout layout){
+        AndroidNetworking.get(MOVIEPUR_URL+end)
+                .build()
+                .getAsObjectList(String.class, new ParsedRequestListener() {
+                    @Override
+                    public void onResponse(Object response) {
+                        addForGenreAndLanguage(layout, (List<String>) response,end.contains("Genres"));
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {} });
+    }
+
+
+
+    private void addForGenreAndLanguage(TableLayout layout, List<String> items,Boolean genreOrNot){
+
+            TableRow row = null;
+            Random rd = new Random();
+            int i=0;
+            for (String value : items ) {
+                if(i % 3 == 0){
+                    if(row != null)
+                        layout.addView(row);
+                    row = new TableRow(context);
+                }
+                Button button = new Button(context);
+                button.setText(value);
+                button.setWidth(30);
+                button.setOnClickListener(v -> getDownload(value,genreOrNot));
+                TableRow.LayoutParams trParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
+
+                trParams.setMargins(30, 10, 0, 10);
+                button.setLayoutParams(trParams);
+                button.setBackgroundColor( Color.rgb(rd.nextInt(255),rd.nextInt(255),rd.nextInt(255)) );
+                row.addView(button, trParams);
+                i++;
+            }
+            layout.addView(row);
+    }
+
+    private void getDownload(String genres,boolean genreOrNot){
+        Intent intent =  new Intent(context, SearchingData.class);
+        intent.putExtra("NAME",genres);
+        intent.putExtra("URL","all/"+ (genreOrNot ?"genre/":"language/") +genres);
+        context.startActivity(intent);
+    }
+}

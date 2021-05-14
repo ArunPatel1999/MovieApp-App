@@ -1,6 +1,5 @@
 package com.moviepurtesrting.enitity;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -12,7 +11,7 @@ public class Movie {
     private int id;
     private String name, image_url;
     private String description;
-    private LocalDate releaseDate;
+    private String releaseDate;
     private String type;
 
     private Map<String, Float> rating = new LinkedHashMap<>(3,0.1f);
@@ -25,7 +24,7 @@ public class Movie {
 
     public Movie() { }
 
-    public Movie(int id, String name, String image_url, String description, LocalDate releaseDate, String type, Map<String, Float> rating, Map<String, String> download_link, Set<String> genre, Set<String> language) {
+    public Movie(int id, String name, String image_url, String description, String releaseDate, String type, Map<String, Float> rating, Map<String, String> download_link, Set<String> genre, Set<String> language) {
         this.id = id;
         this.name = name;
         this.image_url = image_url;
@@ -70,11 +69,11 @@ public class Movie {
         this.description = description;
     }
 
-    public LocalDate getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(LocalDate releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 
