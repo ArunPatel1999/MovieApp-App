@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mainwork.SearchingData"></activity>
+        <activity android:name=".mainwork.VideoController"></activity>
+        <activity android:name=".mainwork.SearchingData" />
         <activity android:name=".mainwork.SearchMoive" />
         <activity android:name=".mainwork.FullDetailsActivity" />
         <activity android:name=".mainwork.MainActivity">

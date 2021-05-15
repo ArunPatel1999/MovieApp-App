@@ -1,10 +1,15 @@
 package com.moviepurtesrting.mainwork;
 
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TableLayout;
@@ -20,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.moviepurtesrting.R;
 import com.moviepurtesrting.enitity.Movie;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -35,6 +41,7 @@ public class FullDetailsActivity extends AppCompatActivity {
     private ImageView movieImage;
     private TableLayout movieGenres,movieLanguages,movieDownloads;
     private Context context;
+    private Map<String, String> downloadLink;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -91,6 +98,7 @@ public class FullDetailsActivity extends AppCompatActivity {
                         our.setText("Moviepur : "+movie.getRating().get("Moviepur"));
                         tomato.setText("Rotten Tomatoes : "+movie.getRating().get("Rotten Tomatoes")+" %");
 
+                        downloadLink = movie.getDownload_link();
                         addForGenreAndLanguage(movieGenres,movie.getGenre());
                         addForGenreAndLanguage(movieLanguages,movie.getLanguage());
                         addForDownload(movieDownloads,movie.getDownload_link());
@@ -138,7 +146,6 @@ public class FullDetailsActivity extends AppCompatActivity {
 
             Button button = new Button(context);
             button.setText(x);
-
             button.setOnClickListener(v -> getDownload(map.get(x)));
 
             button.setBackgroundColor( Color.rgb(rd.nextInt(255),rd.nextInt(255),rd.nextInt(255)) );
@@ -151,8 +158,20 @@ public class FullDetailsActivity extends AppCompatActivity {
     }
 
     private void getDownload(String downloadUrl){
-        Log.i("zzz",downloadUrl);
+        DownloadManager dm = (DownloadManager) getSystemService(context.DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        dm.enqueue(request);
 
+    }
+
+
+    public void videoPlayer(View view) {
+     if(downloadLink!=null && !downloadLink.isEmpty())  {
+         Intent intent =  new Intent(context, VideoController.class);
+         intent.putExtra("DOWNLOADLINKS", (Serializable) downloadLink);
+         context.startActivity(intent);
+     }
     }
 
 }
