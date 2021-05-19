@@ -51,9 +51,10 @@ public class FullDetailsActivity extends AppCompatActivity {
         context=this;
 
         movieImage =  findViewById(R.id.movieImage);
-        type = findViewById(R.id.type);
 
         movieName =  findViewById(R.id.movieName);
+        type =findViewById(R.id.type);
+
         releaseDate =  findViewById(R.id.releaseDate);
 
         imdv =  findViewById(R.id.imdv);
@@ -81,9 +82,9 @@ public class FullDetailsActivity extends AppCompatActivity {
                         Movie movie = (Movie) response;
 
                         Glide.with(context).load(movie.getImage_url()).centerInside().into(movieImage);
-                        type.setText(movie.getType());
 
                         movieName.setText(movie.getName());
+                        type.setText(movie.getType());
 
                         String relesedate = movie.getReleaseDate();
                         if(relesedate!=null)
@@ -123,6 +124,7 @@ public class FullDetailsActivity extends AppCompatActivity {
                 row = new TableRow(context);
             }
             Button button = new Button(context);
+            button.setAllCaps(false);
             button.setText(value);
             button.setWidth(30);
             TableRow.LayoutParams trParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
@@ -145,11 +147,12 @@ public class FullDetailsActivity extends AppCompatActivity {
             TableRow  row= new TableRow(context);
 
             Button button = new Button(context);
-            button.setText(x);
+            button.setAllCaps(false);
+            button.setText( map.size()>1?x:" Download ");
             button.setOnClickListener(v -> getDownload(map.get(x)));
-
             button.setBackgroundColor( Color.rgb(rd.nextInt(255),rd.nextInt(255),rd.nextInt(255)) );
             TableRow.LayoutParams trParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
+            trParams.setMargins(30, 0, 0, 0);
             row.addView(button, trParams);
 
             layout.addView(row);

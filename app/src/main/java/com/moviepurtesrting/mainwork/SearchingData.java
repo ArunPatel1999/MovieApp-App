@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -49,8 +50,7 @@ public class SearchingData extends AppCompatActivity {
     }
 
 
-    private void  getBySerch(String end)
-    {
+    private void  getBySerch(String end) {
         AndroidNetworking.get(MOVIEPUR_URL+end)
                 .build()
                 .getAsObjectList(MovieLite.class, new ParsedRequestListener() {

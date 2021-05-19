@@ -33,14 +33,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/type"
+        <Button
+            android:id="@+id/playbutton"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:background="@drawable/redcircle"
             android:paddingTop="37dp"
+            android:background="@drawable/play_circle"
             android:textAlignment="center"
-            android:textColor="@android:color/holo_green_dark"
             android:textSize="25dp"
             android:onClick="videoPlayer"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -50,17 +49,39 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/nameandtype"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_shap"
+        app:layout_constraintTop_toBottomOf="@id/movieImageContainer"
+        tools:layout_editor_absoluteX="0dp">
+
     <TextView
         android:id="@+id/movieName"
-        android:background="@drawable/background_shap"
         android:textColor="@android:color/holo_green_dark"
-        android:textSize="30dp"
+        android:textSize="25dp"
+        android:layout_height="40dp"
         android:textAlignment="center"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/movieImageContainer" />
+        app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/type"
+            android:textColor="@android:color/holo_green_dark"
+            android:textSize="20dp"
+            android:layout_height="30dp"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/movieName" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <TextView
         android:id="@+id/releaseDate"
@@ -71,7 +92,7 @@
         android:layout_marginTop="10dp"
         android:textSize="20dp"
         android:textColor="#421535"
-        app:layout_constraintTop_toBottomOf="@id/movieName"
+        app:layout_constraintTop_toBottomOf="@id/nameandtype"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout

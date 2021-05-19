@@ -16,6 +16,7 @@
         android:id="@+id/videoQualDrop"
         android:background="@drawable/background_shap"
         android:layout_width="wrap_content"
+        android:visibility="invisible"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints">

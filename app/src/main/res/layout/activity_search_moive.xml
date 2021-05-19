@@ -38,7 +38,6 @@
             android:hint="search..."/>
 
         <ImageButton
-            android:id="@+id/serch"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
@@ -48,6 +47,96 @@
 
     </TableRow>
 
+    <TableRow
+        android:layout_width="0dp"
+        android:id="@+id/search_year"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/background_shap"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_bar">
+
+        <EditText
+            android:id="@+id/startYear"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:maxLines="1"
+            android:textAlignment="center"
+            android:hint="Start Year"
+            android:inputType="number"
+            android:maxLength="4"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_baseline_keyboard_backspace_24" />
+
+        <EditText
+            android:id="@+id/endYear"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:maxLength="4"
+            android:gravity="center"
+            android:maxLines="1"
+            android:inputType="number"
+            android:hint="End Year"/>
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_marginLeft="40dp"
+            android:layout_height="match_parent"
+            android:text="Submit"
+            android:layout_gravity="end"
+            android:onClick="searchMovieByYear" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="0dp"
+        android:id="@+id/search_rating"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/background_shap"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_year">
+
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:spinnerMode="dropdown"/>
+
+        <EditText
+            android:id="@+id/min"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:maxLines="1"
+            android:hint="MIN"
+            android:inputType="number"
+            android:maxLength="2" />
+
+        <EditText
+            android:id="@+id/max"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:maxLength="3"
+            android:gravity="center"
+            android:maxLines="1"
+            android:hint="MAX"/>
+
+        <Button
+            android:layout_width="100dp"
+            android:paddingLeft="5dp"
+            android:layout_height="match_parent"
+            android:text="Submit"
+            android:layout_gravity="end"
+            android:onClick="searchMovieByRating" />
+
+    </TableRow>
 
     <TableLayout
         android:layout_width="0dp"
@@ -56,7 +145,7 @@
         android:background="@drawable/background_shap"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_bar"
+        app:layout_constraintTop_toBottomOf="@id/search_rating"
         android:id="@+id/genresList"
         android:layout_marginTop="50dp"/>
 
