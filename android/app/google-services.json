@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "623905143808",
+    "project_id": "moviepur-5186c",
+    "storage_bucket": "moviepur-5186c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:623905143808:android:25e9596293823ac1edece5",
+        "android_client_info": {
+          "package_name": "com.moviepur"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "623905143808-6k1rgtlfsevukordlmtabnmo1715s0e9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.moviepur",
+            "certificate_hash": "d72b41a16bb1d31222b633f2174150c9aeff6681"
+          }
+        },
+        {
+          "client_id": "623905143808-lioqtq5jug6bbe41cbti03hucuue7qtg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjkWlHRKkgKbDY1Dc0vs6753Lu-984xAw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "623905143808-lioqtq5jug6bbe41cbti03hucuue7qtg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
