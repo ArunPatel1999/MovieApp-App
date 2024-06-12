@@ -1,20 +1,20 @@
 import * as React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeStack from './HomeStack/HomeStack';
 import SeriesStack from './SeriesStack/SeriesStack';
 import ProfileStack from './ProfileStack/ProfileStack';
-import { Platform, View } from 'react-native';
+import {Platform, View} from 'react-native';
 
 //my imports
 
 // SVG
-import MovieSvg from "../../assets/svg/video 1.svg";
-import SeriesSvg from "../../assets/svg/screenplay 1.svg";
-import UserSvg from "../../assets/svg/user 1.svg";
-import SearchSvg from "../../assets/svg/search.svg";
-import Clock from "../../assets/svg/clock 1.svg";
-import Heart from "../../assets/svg/heart.svg";
-
+import MovieSvg from '../../assets/svg/video 1.svg';
+import SeriesSvg from '../../assets/svg/screenplay 1.svg';
+import UserSvg from '../../assets/svg/user 1.svg';
+import SearchSvg from '../../assets/svg/search.svg';
+import Clock from '../../assets/svg/clock 1.svg';
+import Heart from '../../assets/svg/heart.svg';
+import {Colors} from 'global/index';
 
 // import MenuSvg from '../../assets/svg/menu/menu_icon';
 // import MenuFilledSvg from '../../assets/svg/menu/menu_icon_filled';
@@ -34,55 +34,68 @@ import Heart from "../../assets/svg/heart.svg";
 const Tab = createBottomTabNavigator();
 
 function BottomTabs() {
-	return (
-		<Tab.Navigator
-			backBehavior='none'
-			tabBarOptions={{
-				showLabel: false,
-				style: Platform.OS == 'android'
-					?
-					{ backgroundColor: "#000", height: 60, borderTopWidth: 2, borderColor: "#FFF" }
-					:
-					{ backgroundColor: "#000", }
-			}}
-		>
-			<Tab.Screen
-				name="Home"
-				component={HomeStack}
-				options={{
-					tabBarIcon: ({ focused }) => (
-						focused ?
-							< View>
-								<MovieSvg />
-								<View style={{
-									height: 5, width: 20, position: "absolute", left: 2,
-									bottom: -10, borderRadius: 3, backgroundColor: "#FFF"
-								}} />
-							</ View>
-							:
-							<MovieSvg />
-
-					),
-
-				}}
-			/>
-			<Tab.Screen name="Series" component={SeriesStack}
-				options={{
-					tabBarIcon: ({ focused }) => (
-						focused ?
-							< View>
-								<SeriesSvg />
-								<View style={{
-									height: 5, width: 20, position: "absolute", bottom: -10, borderRadius: 3,
-									backgroundColor: "#FFF", left: 5,
-								}} />
-							</View>
-							:
-							<SeriesSvg />
-					),
-				}}
-			/>
-			{/* <Tab.Screen name="Notifications" component={NotificationStack}
+  return (
+    <Tab.Navigator
+      backBehavior="none"
+      tabBarOptions={{
+        keyboardHidesTabBar: true,
+        showLabel: false,
+        style: {
+          backgroundColor: Colors.ONXY,
+          height: 60,
+        },
+      }}>
+      <Tab.Screen
+        name="Home"
+        component={HomeStack}
+        options={{
+          tabBarIcon: ({focused}) =>
+            focused ? (
+              <View>
+                <MovieSvg />
+                <View
+                  style={{
+                    height: 5,
+                    width: 20,
+                    position: 'absolute',
+                    left: 2,
+                    bottom: -10,
+                    borderRadius: 3,
+                    backgroundColor: '#FFF',
+                  }}
+                />
+              </View>
+            ) : (
+              <MovieSvg />
+            ),
+        }}
+      />
+      <Tab.Screen
+        name="Series"
+        component={SeriesStack}
+        options={{
+          tabBarIcon: ({focused}) =>
+            focused ? (
+              <View>
+                <SeriesSvg />
+                <View
+                  style={{
+                    height: 5,
+                    width: 20,
+                    position: 'absolute',
+                    bottom: -10,
+                    borderRadius: 3,
+                    backgroundColor: '#FFF',
+                    left: 5,
+                  }}
+                />
+              </View>
+            ) : (
+              <SeriesSvg />
+            ),
+        }}
+      />
+      {/* <Tab.Screen name="Notifications" component={NotificationStack}
 				options={{
 					tabBarIcon: ({ focused }) => (
 						focused ?
@@ -94,25 +107,32 @@ function BottomTabs() {
 					),
 				}}
 			/> */}
-			<Tab.Screen name="Profile" component={ProfileStack}
-				options={{
-					tabBarIcon: ({ focused }) => (
-						focused ?
-							< View>
-								<UserSvg />
-								<View style={{
-									height: 5, width: 20, position: "absolute", bottom: -10, borderRadius: 3,
-									backgroundColor: "#FFF", left: 3,
-								}} />
-
-							</View>
-							:
-							<UserSvg />
-					),
-				}}
-			/>
-		</Tab.Navigator>
-
-	);
+      <Tab.Screen
+        name="Profile"
+        component={ProfileStack}
+        options={{
+          tabBarIcon: ({focused}) =>
+            focused ? (
+              <View>
+                <UserSvg />
+                <View
+                  style={{
+                    height: 5,
+                    width: 20,
+                    position: 'absolute',
+                    bottom: -10,
+                    borderRadius: 3,
+                    backgroundColor: '#FFF',
+                    left: 3,
+                  }}
+                />
+              </View>
+            ) : (
+              <UserSvg />
+            ),
+        }}
+      />
+    </Tab.Navigator>
+  );
 }
 export default BottomTabs;

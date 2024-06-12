@@ -3,4 +3,5 @@ import * as Colors from './colors';
 import * as Fonts from './typography';
 import * as Constants from './constants';
 import * as Server from './server';
-export { ScreenNames, Colors, Fonts, Constants, Server };
+import * as MyIcon from './myIcon';
+export {ScreenNames, Colors, Fonts, MyIcon, Constants, Server};

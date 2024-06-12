@@ -1,97 +1,119 @@
-//react components
-import React, { useState, useEffect, useRef } from 'react';
+//import : react components
+import React, {useState, useEffect, useRef} from 'react';
 import {
-	Text,View,
-	TextInput, FlatList,
-	Dimensions
+  Text,
+  View,
+  TextInput,
+  Keyboard,
+  FlatList,
+  TouchableOpacity,
 } from 'react-native';
-
-//custom components
-import Header from '../../components/Header/Header';
+//import : custom components
+import Header from 'components/Header/Header';
+import SearchPageLoader from 'components/CustomLoader/SearchPageLoader';
 import MovieCard from '../../components/MovieCard/MovieCard';
-import SeriesCard from "../../components/SeriesCard/SeriesCard";
-//styles
-import { styles } from "./SearchMovieStyle";
+import SeriesCard from '../../components/SeriesCard/SeriesCard';
+//import : styles
+import {styles} from './SearchMovieStyle';
+//import : utils
 //svg
-import SearchSvg from "../../assets/svg/search.svg"
-//service 
-import * as service from "./SearchMovieService";
+import {Colors, MyIcon, Server} from '../../global';
+//service
 
-const SearchMovie = ({  }) => {
+const SearchMovie = ({}) => {
+  //variables : ref
+  const textInputRef = useRef();
+  //hook : states
+  const [searchedText, setSearchedText] = useState('');
+  const [movieData, setMovieData] = useState([]);
+  //hook : modal states
+  const [showLoader, setShowLoader] = useState(false);
+  //function : service function
+  const searchMovieByName = async () => {
+    setShowLoader(true);
+    try {
+      const paramsData = {
+        pageNumber: 0,
+        pageSize: 20,
+      };
+      const endPoint = `${Server.search}${searchedText}`;
+      const {response, status} = await Server.getAPI(endPoint, paramsData);
+      if (status) {
+        setMovieData(response.data);
+      }
+      console.log(response, status);
+    } catch (error) {
+      console.log('error in searchMovieByName', error);
+    }
+    setShowLoader(false);
+  };
+  //function : render function
+  const SearchMoviesRenderFunction = ({item}) => (
+    <React.Fragment key={item.id}>
+      {item.type == 'MOVIE' ? (
+        <MovieCard item={item} imageUrl={item.image} />
+      ) : (
+        <SeriesCard imageUrl={item.image} item={item} />
+      )}
+    </React.Fragment>
+  );
+  //hook : useEffect
+  useEffect(() => {
+    return () => {};
+  }, []);
 
-	//states
-	const [movieData, setMovieData] = useState([]);
-	//ref
-	const textInput = useRef();
-	//function : service function
-	const searchMovieByName = async (text) => {
-		try {
-			const res = await service.searchMovieByName(text);
-			setMovieData(res.data);
-		} catch (error) {
-			setMovieData([]);
-			console.log("error in searchMovieByName", error);
-		}
-	}
-	//function : render function
-	const SearchMoviesRenderFunction = ({ item }) => (
-		<React.Fragment key={item.id}>
-		{
-			item.type=="Movie"
-			?
-			<MovieCard
-				item={item}
-				imageUrl={item.image_url}
-			/>
-			:
-			<SeriesCard 
-				imageUrl={item.image_url}
-				item={item}
-			/>
-		}
-		</React.Fragment>
-	);
-	//useEffect
-	useEffect(() => {
-		return () => {
-		}
-	}, [])
-
-	//UI
-	return (
-		<View style={{ backgroundColor: "#000", flex: 1 }}>
-			<Header/>
-			<View style={styles.searchView}>
-				<SearchSvg />
-				<TextInput
-					style={styles.input}
-					onChangeText={text => searchMovieByName(text)}
-					value={textInput}
-					placeholder="Enter movie here"
-					placeholderTextColor="#FFF"
-				/>
-			</View>
-			<View style={{ marginBottom: 120 }}>
-				{
-					movieData.length > 0
-						?
-						<FlatList
-							showsVerticalScrollIndicator={true}
-							data={movieData}
-							numColumns={2}
-							renderItem={SearchMoviesRenderFunction}
-							keyExtractor={item => item.id}
-						/>
-						:
-						<Text style={styles.noMovieErrorText}>
-							Please enter movie name
-					</Text>
-				}
-
-			</View>
-
-		</View>
-	)
-}
+  //UI
+  return (
+    <View style={{backgroundColor: '#000', flex: 1}}>
+      <Header />
+      <View style={styles.searchView}>
+        <TextInput
+          ref={textInputRef}
+          style={styles.input}
+          onChangeText={text => setSearchedText(text)}
+          value={searchedText}
+          placeholder="Enter movie here"
+          placeholderTextColor="#FFF"
+        />
+        <TouchableOpacity
+          onPress={() => {
+            Keyboard.dismiss();
+            searchMovieByName();
+          }}
+          style={{
+            backgroundColor: Colors.SEA_GREEN,
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+            width: '15%',
+            borderRadius: 10,
+          }}>
+          <MyIcon.AntDesign name="search1" color={Colors.WHITE} size={24} />
+        </TouchableOpacity>
+      </View>
+      {showLoader ? (
+        <SearchPageLoader />
+      ) : (
+        <>
+          <View style={{marginBottom: 120}}>
+            {movieData.length > 0 ? (
+              <FlatList
+                showsVerticalScrollIndicator={true}
+                data={movieData}
+                numColumns={2}
+                renderItem={SearchMoviesRenderFunction}
+                keyExtractor={item => item.id}
+              />
+            ) : (
+              <Text style={styles.noMovieErrorText}>
+                Please enter movie name
+              </Text>
+            )}
+          </View>
+        </>
+      )}
+    </View>
+  );
+};
 
 export default SearchMovie;

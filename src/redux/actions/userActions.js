@@ -1,21 +1,26 @@
-import * as UserActionTypes from "../actionType/userActionType";
+import {UserActionTypes} from '../actionType';
 
-export const setName = (name) => ({
+export const setName = name => ({
   type: UserActionTypes.SET_NAME,
   payload: name,
 });
 
-export const setUserImageName = (name) => ({
+export const setAccessId = id => ({
+  type: UserActionTypes.SET_ACCESS_ID,
+  payload: id,
+});
+
+export const setUserImageName = name => ({
   type: UserActionTypes.SET_USER_IMAGE_NAME,
   payload: name,
 });
 
-export const setUser = (user) => ({
+export const setUser = user => ({
   type: UserActionTypes.SET_USER,
   payload: user,
 });
 
-export const setSignedIn = (status) => ({
+export const setSignedIn = status => ({
   type: UserActionTypes.SET_SIGNED_IN,
   payload: status,
 });
@@ -26,12 +31,12 @@ export const toggleSnackBar = () => ({
 
 //category
 
-export const setSelectedCategory = (category) => ({
+export const setSelectedCategory = category => ({
   type: UserActionTypes.SET_SELECTED_CATEGORY,
   payload: category,
 });
 
-export const setSelectedSubCategory = (subCategory) => ({
+export const setSelectedSubCategory = subCategory => ({
   type: UserActionTypes.SET_SELECTED_SUB_CATEGORY,
   payload: subCategory,
 });
@@ -39,12 +44,18 @@ export const setSelectedSubCategory = (subCategory) => ({
 // category ends here
 
 //address
-export const setAddress = (addresses) => ({
+export const setAddress = addresses => ({
   type: UserActionTypes.SET_ADDRESS,
   payload: addresses,
 });
 
-export const setSelectedAddress = (addressId, addressType, area, building, nearByFamousPlace) => ({
+export const setSelectedAddress = (
+  addressId,
+  addressType,
+  area,
+  building,
+  nearByFamousPlace,
+) => ({
   type: UserActionTypes.SET_SELECTED_ADDRESS,
   payload: {
     addressId,
@@ -52,10 +63,10 @@ export const setSelectedAddress = (addressId, addressType, area, building, nearB
     area,
     building,
     nearByFamousPlace,
-  }
+  },
 });
 
-export const setAddressAction = (action) => ({
+export const setAddressAction = action => ({
   type: UserActionTypes.SET_ADDRESS_ACTION,
   payload: action,
 });
@@ -71,17 +82,17 @@ export const showSignInModal = () => ({
 
 // add to favourites
 
-export const addToFavourites = (payload) => ({
+export const addToFavourites = payload => ({
   type: UserActionTypes.ADD_TO_FAVOURITES,
   payload,
 });
 
-export const removeFromFavourites = (payload) => ({
+export const removeFromFavourites = payload => ({
   type: UserActionTypes.REMOVE_FROM_FAVOURITES,
   payload,
 });
 
-export const setLatestAddedFavouriteProduct = (payload) => ({
+export const setLatestAddedFavouriteProduct = payload => ({
   type: UserActionTypes.SET_LATEST_ADDED_FAVOURITE_PRODUCT,
   payload,
 });

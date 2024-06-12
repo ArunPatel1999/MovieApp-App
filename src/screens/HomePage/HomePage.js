@@ -1,241 +1,198 @@
-//react components
-import React, { useEffect, useState } from 'react'
+//import : react components
+import React, {useEffect, useState} from 'react';
 import {
-	Text, View,
-	FlatList, TouchableOpacity,
-	ScrollView,ActivityIndicator,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  ScrollView,
+  ActivityIndicator,
 } from 'react-native';
-//custom components
-import Carousel from '../../components/Carousel/Carousel';
-import Header from '../../components/Header/Header';
-import MovieCard from '../../components/MovieCard/MovieCard';
+//import : custom components
+import Carousel from 'components/Carousel/Carousel';
+import Header from 'components/Header/Header';
+import MovieCard from 'components/MovieCard/MovieCard';
+//import : utils
+import {Server} from 'global/index';
+//import : styles
+import {styles} from './HomePageStyle';
+import HomePageLoader from 'components/CustomLoader/HomePageLoader';
+import ViewAllTitle from 'components/ViewAllTitle/ViewAllTitle';
 
-//styles
-import { styles } from "./HomePageStyle";
+const HomePage = ({navigation}) => {
+  //hook : states
+  const [bannerData, setBannerData] = useState([]);
+  const [recommandationsMovie, setRecommandationsMovie] = useState([]);
+  const [mostLikes, setMostLikes] = useState([]);
+  const [allMovies, setAllMovies] = useState([]);
+  //hook : modal states
+  const [showLoader, setShowLoader] = useState(false);
+  //function : service function
+  const loadData = async () => {
+    setShowLoader(true);
+    await getBanner();
+    await getAllRecommandations();
+    await getAllMostLikes();
+    await getAllMovies();
+    setShowLoader(false);
+  };
+  const getBanner = async () => {
+    try {
+      const {response, status} = await Server.getAPI(Server.banner);
+      if (status) {
+        setBannerData(response);
+      } else {
+        setBannerData([]);
+      }
+    } catch (error) {
+      console.log('error in getBanner', error);
+    }
+  };
+  const getAllRecommandations = async () => {
+    try {
+      const paramsData = {
+        pageNumber: 0,
+        pageSize: 20,
+        type: 'MOVIE',
+      };
+      const {response, status} = await Server.getAPI(
+        Server.recommandation,
+        paramsData,
+      );
+      if (status) {
+        setRecommandationsMovie(response.data);
+      }
+    } catch (error) {
+      console.error('error in getAllRecommandations', error);
+    }
+  };
+  const getAllMostLikes = async () => {
+    try {
+      const paramsData = {
+        pageNumber: 0,
+        pageSize: 20,
+        type: 'MOVIE',
+      };
+      const {response, status} = await Server.getAPI(
+        Server.most_like,
+        paramsData,
+      );
+      if (status) {
+        setMostLikes(response.data);
+      }
+    } catch (error) {
+      console.error('error in getAllRecommandations', error);
+    }
+  };
+  const getAllMovies = async () => {
+    try {
+      const paramsData = {
+        pageNumber: 0,
+        pageSize: 20,
+        type: 'MOVIE',
+      };
+      const {response, status} = await Server.getAPI(
+        Server.find_all,
+        paramsData,
+      );
+      if (status) {
+        setAllMovies(response.data);
+      }
+    } catch (error) {
+      console.error('error in getAllRecommandations', error);
+    }
+  };
+  //function : render function
 
-//service 
-import * as service from "./HomePageService";
+  const movieRenderFunction = ({item}) => {
+    // console.log('item', item);
+    return <MovieCard item={item} imageUrl={item.image} key={item.id} />;
+  };
+  const goToSpecialSection = () => {
+    navigation.navigate('SpecialSection');
+  };
+  //hook : useEffect
+  useEffect(() => {
+    loadData();
+  }, []);
 
-
-const HomePage = ({ navigation }) => {
-
-	//Data
-	const DATAFORALLMOVIE = [
-		{
-			id: 1,
-			name: "Hollywood"
-		},
-		{
-			id: 2,
-			name: "Bollywood"
-		},
-		{
-			id: 3,
-			name: "Tollywood"
-		}
-	]
-
-	//states
-	const [bannerData,setBannerData]=useState([]);
-	const [latestHollywood, setLatestHollywood] = useState([]);
-	const [latestBollywood, setLatestBollywood] = useState([]);
-	const [latestTollywood, setLatestTollywood] = useState([]);
-	const [mostLikedMovies, setMostLikedMovies] = useState([]);
-
-	//function : service function
-	const getBanner=async()=>{
-		try {
-			const resp=await service.getBanner();
-			setBannerData(resp.data);
-		} catch (error) {
-			setBannerData([]);
-			console.log("error in getBanner",error);
-		}
-	}
-	const getLatestHollywoodMovie = async () => {
-		try {
-			const resp = await service.getLatestHollywoodMovie();
-			setLatestHollywood(resp.data)
-		} catch (error) {
-			setLatestHollywood([])
-			console.log("error in getLatestHollywoodMovie", error);
-		}
-	}
-	const getLatestBollywoodMovie = async () => {
-		try {
-			const resp = await service.getLatestBollywoodMovie();
-			setLatestBollywood(resp.data)
-		} catch (error) {
-			setLatestBollywood([])
-			console.log("error in getLatestBollywoodMovie", error);
-		}
-	}
-	const getLatestTollywoodMovie = async () => {
-		try {
-			const resp = await service.getLatestTollywoodMovie();
-			setLatestTollywood(resp.data)
-		} catch (error) {
-			setLatestTollywood([])
-			console.log("error in getLatestTollywoodMovie", error);
-		}
-	}
-	const getMostLikedMovie = async () => {
-		try {
-			const resp = await service.getMostLikedMovie();
-			setMostLikedMovies(resp.data);
-		} catch (error) {
-			setMostLikedMovies([])
-			console.log("error in getMostLikedMovie", error);
-		}
-	}
-	//function : render function
-	const movieIndustryRenderFunct = ({ item }) => (
-		<TouchableOpacity
-			// onPress={() => navigation.navigate("MovieListing")}
-			onPress={() => navigation.navigate("AllMovie", { typeOf: item.typeOf, industory: item.name, flag: 0 })}
-			style={{
-				height: 40, width: 120, borderRadius: 10,
-				backgroundColor: "#3c465c", justifyContent: "center", alignItems: "center",
-				margin: 10
-			}}>
-			<Text style={{ color: "#FFF", fontSize: 16, fontWeight: "bold" }}>{item.name}</Text>
-		</TouchableOpacity>
-	)
-	const movieRenderFunction = ({ item }) => (
-		<MovieCard
-			item={item}
-			imageUrl={item.image_url}
-			key={item.id}
-		/>
-	)
-	const goToSpecialSection = () => {
-		navigation.navigate("SpecialSection")
-	}
-	//useEffect
-	useEffect(() => {
-		getBanner()
-		getLatestHollywoodMovie()
-		getLatestBollywoodMovie()
-		getLatestTollywoodMovie()
-		getMostLikedMovie()
-	}, []);
-
-	//UI
-	return (
-		<View style={styles.container}>
-			<Header
-				ShowSearchButton={true}
-			/>
-			<ScrollView >
-				<View style={{ height: 10 }} />
-				<Carousel data={bannerData} />
-				<FlatList
-					horizontal={true}
-					data={DATAFORALLMOVIE}
-					renderItem={movieIndustryRenderFunct}
-					keyExtractor={item => item.id}
-				/>
-				<View style={styles.titleStyleView}>
-					<Text style={styles.TextStyle}>
-						Latest Hollywood Release
-					</Text>
-				</View>
-				<View>
-					{
-						latestHollywood.length>0
-						?
-						<FlatList
-							data={latestHollywood}
-							horizontal={true}
-							renderItem={movieRenderFunction}
-							keyExtractor={item => item.id}
-						/>
-						:
-						<View style={styles.ActivityIndicatorView}>
-							<ActivityIndicator size="small" color="#00ff00" />
-						</View>
-					}
-					
-				</View>
-				<View style={styles.titleStyleView}>
-					<Text style={styles.TextStyle}>
-						Latest Bollywood Release
-					</Text>
-				</View>
-				<View>
-					{
-						latestBollywood.length>0
-						?
-						<FlatList
-							data={latestBollywood}
-							horizontal={true}
-							renderItem={movieRenderFunction}
-							keyExtractor={item => item.id}
-						/>
-						:
-						<View style={styles.ActivityIndicatorView}>
-							<ActivityIndicator size="small" color="#00ff00" />
-						</View>
-					}
-				
-				</View>
-				<View style={styles.titleStyleView}>
-					<Text style={styles.TextStyle}>
-						Latest Tollywood Release
-					</Text>
-				</View>
-				<View>
-					{
-						latestTollywood.length>0
-						?
-						<FlatList
-							data={latestTollywood}
-							horizontal={true}
-							renderItem={movieRenderFunction}
-							keyExtractor={item => item.id}
-						/>
-						:
-						<View style={styles.ActivityIndicatorView}>
-							<ActivityIndicator size="small" color="#00ff00" />
-						</View>
-					}
-					
-				</View>
-				<View style={styles.titleStyleView}>
-					<Text style={styles.TextStyle}>
-						Most Liked Movies
-					</Text>
-				</View>
-				<View>
-					{
-						mostLikedMovies.length>0
-						?
-						<FlatList
-							data={mostLikedMovies}
-							horizontal={true}
-							renderItem={movieRenderFunction}
-							keyExtractor={item => item.id}
-						/>
-						:
-						<View style={styles.ActivityIndicatorView}>
-							<ActivityIndicator size="small" color="#00ff00" />
-						</View>
-					}
-				
-				</View>
-				<TouchableOpacity
-					onPress={() => goToSpecialSection()}
-					style={styles.specialSectionView}
-				>
-					<Text style={styles.specialSectionText}>Movies Special</Text>
-				</TouchableOpacity>
-				<View style={{ height: 20 }} />
-			</ScrollView>
-
-		</View>
-	)
-}
+  //UI
+  if (showLoader) {
+    return (
+      <View style={styles.container}>
+        <Header ShowSearchButton={true} />
+        <HomePageLoader />
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <Header ShowSearchButton={true} />
+        <ScrollView style={styles.mainView}>
+          <View style={{height: 10}} />
+          <Carousel data={bannerData} />
+          <ViewAllTitle />
+          <View style={styles.titleStyleView}>
+            <Text style={styles.TextStyle}>Recommandation</Text>
+          </View>
+          <View>
+            {recommandationsMovie.length > 0 ? (
+              <FlatList
+                data={recommandationsMovie}
+                horizontal={true}
+                renderItem={movieRenderFunction}
+                keyExtractor={item => item.id}
+              />
+            ) : (
+              <View style={styles.ActivityIndicatorView}>
+                <ActivityIndicator size="small" color="#00ff00" />
+              </View>
+            )}
+          </View>
+          <View style={styles.titleStyleView}>
+            <Text style={styles.TextStyle}>Most likes</Text>
+          </View>
+          <View>
+            {mostLikes.length > 0 ? (
+              <FlatList
+                data={mostLikes}
+                horizontal={true}
+                renderItem={movieRenderFunction}
+                keyExtractor={item => item.id}
+              />
+            ) : (
+              <View style={styles.ActivityIndicatorView}>
+                <ActivityIndicator size="small" color="#00ff00" />
+              </View>
+            )}
+          </View>
+          <View style={styles.titleStyleView}>
+            <Text style={styles.TextStyle}>All Movie</Text>
+          </View>
+          <View>
+            {allMovies.length > 0 ? (
+              <FlatList
+                data={allMovies}
+                horizontal={true}
+                renderItem={movieRenderFunction}
+                keyExtractor={item => item.id}
+              />
+            ) : (
+              <View style={styles.ActivityIndicatorView}>
+                <ActivityIndicator size="small" color="#00ff00" />
+              </View>
+            )}
+          </View>
+          <TouchableOpacity
+            onPress={() => goToSpecialSection()}
+            style={styles.specialSectionView}>
+            <Text style={styles.specialSectionText}>Movies Special</Text>
+          </TouchableOpacity>
+          <View style={{height: 20}} />
+        </ScrollView>
+      </View>
+    );
+  }
+};
 
 export default HomePage;
-
-
